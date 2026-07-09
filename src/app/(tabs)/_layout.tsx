@@ -1,6 +1,6 @@
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { Tabs, router } from 'expo-router';
-import { Pressable, StyleSheet } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 
 export default function TabsLayout() {
   return (
@@ -24,11 +24,13 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="add"
         options={{
-          tabBarButton: () => (
-            <Pressable style={styles.fab} onPress={() => router.push('/camera')}>
-              <Ionicons name="camera" size={20} color="#FFFFFF" />
-            </Pressable>
-          ),
+            tabBarButton: () => (
+                <View style={styles.fabContainer}>
+                    <Pressable style={styles.fab} onPress={() => router.push('/camera')}>
+                        <Ionicons name="camera" size={20} color="#FFFFFF" />
+                    </Pressable>
+                </View>
+            ),
         }}
       />
       <Tabs.Screen
@@ -44,10 +46,11 @@ export default function TabsLayout() {
 }
 
 const styles = StyleSheet.create({
-  tabBar: { backgroundColor: '#FFFCF7', borderTopColor: '#F0E1D0', height: 64, paddingTop: 8 },
-  fab: {
-    width: 44, height: 44, borderRadius: 22, backgroundColor: '#C2694A',
-    alignItems: 'center', justifyContent: 'center', alignSelf: 'center', marginTop: -14,
-    shadowColor: '#3D2B1F', shadowOpacity: 0.2, shadowOffset: { width: 0, height: 4 }, shadowRadius: 8, elevation: 4,
-  },
+    tabBar: { backgroundColor: '#FFFCF7', borderTopColor: '#F0E1D0', height: 64, paddingTop: 8 },
+    fabContainer: { flex: 1, alignItems: 'center', justifyContent: 'flex-end', paddingBottom: 8 },
+    fab: {
+        width: 44, height: 44, borderRadius: 22, backgroundColor: '#C2694A',
+        alignItems: 'center', justifyContent: 'center',
+        shadowColor: '#3D2B1F', shadowOpacity: 0.2, shadowOffset: { width: 0, height: 4 }, shadowRadius: 8, elevation: 4,
+    },
 });

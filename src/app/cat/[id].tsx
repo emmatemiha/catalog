@@ -1,11 +1,20 @@
-import { cats } from '@/types/cat';
+import { useCats } from '@/hooks/useCats';
 import { router, useLocalSearchParams } from 'expo-router';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function CatDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
+  const { cats, loading } = useCats();
   const cat = cats.find((c) => c.id === id);
+
+  if (loading) {
+    return (
+      <SafeAreaView style={styles.safeArea}>
+        <Text style={styles.notFound}>Loading...</Text>
+      </SafeAreaView>
+    );
+  }
 
   if (!cat) {
     return (

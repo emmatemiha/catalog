@@ -1,4 +1,4 @@
-import { cats } from '@/types/cat';
+import { useCats } from '@/hooks/useCats';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useState } from 'react';
@@ -6,14 +6,15 @@ import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function CollectionsScreen() {
+  const { cats } = useCats();
   const [activeFilter, setActiveFilter] = useState('All cats');
 
   const uniqueCollections = Array.from(new Set(cats.flatMap((c) => c.collections)));
-  const filters = ['All cats', ...uniqueCollections, 'Favorites'];
+  const filters = ['All cats', ...uniqueCollections, 'Favourites'];
 
   const filteredCats = cats.filter((cat) => {
     if (activeFilter === 'All cats') return true;
-    if (activeFilter === 'Favorites') return cat.favorite;
+    if (activeFilter === 'Favourites') return cat.favourite;
     return cat.collections.includes(activeFilter);
   });
 
@@ -58,7 +59,7 @@ export default function CollectionsScreen() {
               style={[styles.card, { backgroundColor: cat.color }]}
               onPress={() => router.push({ pathname: '/cat/[id]', params: { id: cat.id } })}
             >
-              {cat.favorite && <Ionicons name="star" size={14} color="#F4A261" style={styles.star} />}
+              {cat.favourite && <Ionicons name="star" size={14} color="#F4A261" style={styles.star} />}
               <View style={styles.cardOverlay}>
                 <Text style={styles.cardName}>{cat.name}</Text>
                 <Text style={styles.cardMeta}>{cat.timesSpotted} sightings</Text>

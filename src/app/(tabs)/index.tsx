@@ -1,10 +1,11 @@
-import { cats } from '@/types/cat';
+import { useCats } from '@/hooks/useCats';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function HomeScreen() {
+  const { cats } = useCats();
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
@@ -90,7 +91,7 @@ const styles = StyleSheet.create({
   },
   questProgressText: { fontSize: 11, color: '#FBEAF0' },
   mapPreview: {
-    height: 130, borderRadius: 16, backgroundColor: '#F0E1D0',
+    height: 200, borderRadius: 16, backgroundColor: '#F0E1D0',
     overflow: 'hidden', justifyContent: 'flex-end',
   },
   mapPin1: {

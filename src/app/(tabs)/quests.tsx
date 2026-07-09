@@ -110,11 +110,11 @@ const styles = StyleSheet.create({
   progressFill: { height: '100%', backgroundColor: '#FBEAF0', borderRadius: 10 },
   progressLabel: { fontSize: 11, color: '#F0BFCF' },
   sectionLabel: { fontSize: 13, fontWeight: '500', color: '#3D2B1F', marginTop: 16, marginBottom: 4 },
-  // matches Home's catCard sizing exactly (48x48 circle, same padding/gap)
+  // matches home's catCard sizing exactly
   historyRow: {
     flexDirection: 'row', alignItems: 'center', gap: 12,
     backgroundColor: '#FFFFFF', borderRadius: 14, padding: 12,
-    borderWidth: 1, borderColor: '#F0E1D0', marginBottom: 10,
+    borderWidth: 1, borderColor: '#F0E1D0', marginBottom: 8,
   },
   historyCheckCircle: {
     width: 48, height: 48, borderRadius: 10,

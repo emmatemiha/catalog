@@ -1,3 +1,4 @@
+import { addCat } from '@/lib/catStorage';
 import { Ionicons } from '@expo/vector-icons';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
@@ -6,14 +7,15 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function NewCatScreen() {
   const { photoUri } = useLocalSearchParams<{ photoUri: string }>();
-
   const [name, setName] = useState('');
   const [breed, setBreed] = useState('');
   const [personality, setPersonality] = useState('');
   const [status, setStatus] = useState<'outdoor' | 'indoor' | 'stray'>('outdoor');
   const [notes, setNotes] = useState('');
+  const [selectedCollections, setSelectedCollections] = useState<string[]>([]);
+  const existingCollections = ['Park regulars', 'Night owls']; // pull from real data later
 
-  const handleSave = () => {
+  const handleSave = async () => {
     const newCat = {
       id: Date.now().toString(),
       name,
@@ -21,17 +23,15 @@ export default function NewCatScreen() {
       personality,
       status,
       notes,
+      color: '#C2694A',
       photoUri,
       timesSpotted: 1,
       location: 'Unknown',
-      collections: [],
+      collections: selectedCollections,
     };
 
-    // TODO: replace with real persistence once storage is wired up:
-    // await addCat(newCat);
-    console.log('New cat (not yet saved):', newCat);
-
-    router.push('/');
+    await addCat(newCat);
+    router.replace({ pathname: '/cat/[id]', params: { id: newCat.id } });
   };
 
   return (
@@ -53,11 +53,11 @@ export default function NewCatScreen() {
           style={styles.input}
           value={name}
           onChangeText={setName}
-          placeholder="e.g. Mochi"
+          placeholder="e.g. Nico"
           placeholderTextColor="#B8A392"
         />
 
-        <Text style={styles.label}>Breed / color</Text>
+        <Text style={styles.label}>Breed / Colour</Text>
         <TextInput
           style={styles.input}
           value={breed}
@@ -77,7 +77,7 @@ export default function NewCatScreen() {
 
         <Text style={styles.label}>Status</Text>
         <View style={styles.statusRow}>
-          {(['outdoor', 'indoor', 'stray'] as const).map((option) => (
+          {(['outdoor', 'indoor'] as const).map((option) => (
             <Pressable
               key={option}
               style={[styles.statusChip, status === option && styles.statusChipActive]}
@@ -88,6 +88,26 @@ export default function NewCatScreen() {
               </Text>
             </Pressable>
           ))}
+        </View>
+
+        <Text style={styles.label}>Add to collection (optional)</Text>
+        <View style={styles.statusRow}>
+          {existingCollections.map((col) => {
+            const active = selectedCollections.includes(col);
+            return (
+              <Pressable
+                key={col}
+                style={[styles.statusChip, active && styles.statusChipActive]}
+                onPress={() =>
+                  setSelectedCollections((prev) =>
+                    active ? prev.filter((c) => c !== col) : [...prev, col]
+                  )
+                }
+              >
+                <Text style={[styles.statusChipText, active && styles.statusChipTextActive]}>{col}</Text>
+              </Pressable>
+            );
+          })}
         </View>
 
         <Text style={styles.label}>Notes</Text>
@@ -113,7 +133,7 @@ const styles = StyleSheet.create({
   safeArea: { flex: 1, backgroundColor: '#FBF3EA' },
   scrollContent: { padding: 20, gap: 4 },
   backButton: { marginBottom: 8 },
-  photo: { width: '100%', height: 200, borderRadius: 16, marginBottom: 16, backgroundColor: '#E9C9A8' },
+  photo: { width: '100%', height: 400, borderRadius: 20, marginBottom: 16, backgroundColor: '#E9C9A8' },
   photoPlaceholder: { alignItems: 'center', justifyContent: 'center' },
   label: { fontSize: 12, fontWeight: '500', color: '#3D2B1F', marginTop: 12, marginBottom: 6 },
   input: {

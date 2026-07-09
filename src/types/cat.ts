@@ -8,6 +8,8 @@ export interface Cat {
   location: string;
   notes: string;
   color: string; // temporary placeholder color until real photos exist
+  collections: string[];
+  favourite?: boolean;
 }
 
 export const cats: Cat[] = [
@@ -21,6 +23,8 @@ export const cats: Cat[] = [
     location: 'Elm Street',
     notes: 'Such a sweet, timid boy.',
     color: '#3D2B1F',
+    collections: ['Neighbourhood regulars'],
+    favourite: true,
   },
   {
     id: '2',
@@ -32,5 +36,6 @@ export const cats: Cat[] = [
     location: 'Elm Street park',
     notes: 'Comes right up to you, loves being pet.',
     color: '#DDBFA0',
+    collections: ['Neighbourhood regulars'],
   },
 ];

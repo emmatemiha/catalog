@@ -21,7 +21,7 @@ export default function HomeScreen() {
 
         <Pressable style={styles.questBanner} onPress={() => router.push('/quests')}>
           <View style={styles.questIconCircle}>
-            <MaterialCommunityIcons name="target" size={18} color="#FBEAF0" />
+            <MaterialCommunityIcons name="bullseye-arrow" size={18} color="#FBEAF0" />
           </View>
           <View style={{ flex: 1 }}>
             <Text style={styles.questLabel}>Today's Quest</Text>

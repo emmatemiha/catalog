@@ -25,9 +25,17 @@ export default function CameraScreen() {
     }
   };
 
+    const handleClose = () => {
+        if (router.canGoBack()) {
+            router.back();
+        } else {
+            router.replace('/');
+        }
+    };
+
   return (
     <SafeAreaView style={styles.safeArea}>
-      <Pressable onPress={() => router.back()} style={styles.closeButton}>
+      <Pressable onPress={handleClose} style={styles.closeButton}>
         <Ionicons name="close" size={22} color="#3D2B1F" />
       </Pressable>
 
